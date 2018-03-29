@@ -7,108 +7,102 @@ using namespace std::chrono;
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "WaveVRBlueprintFunctionLibrary.h"
 #include "WaveVRController.generated.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(WaveVRController, Log, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogWaveVRController, Log, All);
 
-/* Define the buttons of controller */
+static const int InputButtonCount = 11;
 UENUM(BlueprintType)
 enum class EWVR_InputId : uint8
 {
 	//WVR_InputId_Alias1_System = 0,
-	Menu = 1,
-	Grip = 2,
-	DPad_Left = 3,
-	DPad_Up = 4,
-	DPad_Right = 5,
-	DPad_Down = 6,
-	Volume_Up = 7,
-	Volume_Down = 8,
-	Bumper = 9,
-	Touchpad = 16,
-	Trigger = 17,
+	Menu = 1,		// WVR_InputId::WVR_InputId_Alias1_Menu
+	Grip = 2,		// WVR_InputId::WVR_InputId_Alias1_Grip
+	DPad_Left = 3,	// WVR_InputId::WVR_InputId_Alias1_DPad_Left
+	DPad_Up = 4,	// WVR_InputId::WVR_InputId_Alias1_DPad_Up
+	DPad_Right = 5,	// WVR_InputId::WVR_InputId_Alias1_DPad_Right
+	DPad_Down = 6,	// WVR_InputId::WVR_InputId_Alias1_DPad_Down
+	Volume_Up = 7,	// WVR_InputId::WVR_InputId_Alias1_Volume_Up
+	Volume_Down = 8,// WVR_InputId::WVR_InputId_Alias1_Volume_Down
+	Bumper = 9,		// WVR_InputId::WVR_InputId_Alias1_Bumper
+	Touchpad = 16,	// WVR_InputId::WVR_InputId_Alias1_Touchpad
+	Trigger = 17,	// WVR_InputId::WVR_InputId_Alias1_Trigger
 
 	//Max = 32,
 };
 
+static const EWVR_InputId InputButton[InputButtonCount] =
+{
+	EWVR_InputId::Menu,
+	EWVR_InputId::Grip,
+	EWVR_InputId::DPad_Left,
+	EWVR_InputId::DPad_Up,
+	EWVR_InputId::DPad_Right,	// 5
+	EWVR_InputId::DPad_Down,
+	EWVR_InputId::Volume_Up,
+	EWVR_InputId::Volume_Down,
+	EWVR_InputId::Bumper,
+	EWVR_InputId::Touchpad,		// 10
+	EWVR_InputId::Trigger
+};
+
+static const int TouchButtonCount = 2;
 UENUM(BlueprintType)
 enum class EWVR_TouchId : uint8
 {
-	Touchpad = 16,
-	Trigger = 17,
+	Touchpad = 16,	// WVR_InputId::WVR_InputId_Alias1_Touchpad
+	Trigger = 17,	// WVR_InputId::WVR_InputId_Alias1_Trigger
+};
+
+static const EWVR_TouchId TouchButton[TouchButtonCount] =
+{
+	EWVR_TouchId::Touchpad,
+	EWVR_TouchId::Trigger
 };
 
 class Device
 {
 public:
-	static const int pressIdCount = 11;
-	static const int touchIdCount = 2;
+	Device(EWVR_Hand hand);
 
-#if WAVEVR_SUPPORTED_PLATFORMS
-	WVR_InputId pressIds[pressIdCount] = {
-		WVR_InputId_Alias1_Menu,
-		WVR_InputId_Alias1_Grip,
-		WVR_InputId_Alias1_DPad_Left,
-		WVR_InputId_Alias1_DPad_Up,
-		WVR_InputId_Alias1_DPad_Right,  // 5
-		WVR_InputId_Alias1_DPad_Down,
-		WVR_InputId_Alias1_Volume_Up,
-		WVR_InputId_Alias1_Volume_Down,
-		WVR_InputId_Alias1_Bumper,
-		WVR_InputId_Alias1_Touchpad,	// 10
-		WVR_InputId_Alias1_Trigger
-	};
+	EWVR_Hand Hand;
 
-	WVR_InputId touchIds[touchIdCount] = {
-		WVR_InputId_Alias1_Touchpad,
-		WVR_InputId_Alias1_Trigger
-	};
+	bool AllowPressActionInAFrame(EWVR_InputId id);
+	bool GetPress(EWVR_InputId id);
+	bool GetPressDown(EWVR_InputId id);
+	bool GetPressUp(EWVR_InputId id);
 
-	Device(WVR_DeviceType type);
+	bool AllowTouchActionInAFrame(EWVR_TouchId id);
+	bool GetTouch(EWVR_TouchId id);
+	bool GetTouchDown(EWVR_TouchId id);
+	bool GetTouchUp(EWVR_TouchId id);
 
-	WVR_DeviceType DeviceType;
-
-	bool AllowPressActionInAFrame(WVR_InputId id);
-	bool GetPress(WVR_InputId _id);
-	bool GetPressDown(WVR_InputId _id);
-	bool GetPressUp(WVR_InputId _id);
-
-	bool AllowTouchActionInAFrame(WVR_InputId id);
-	bool GetTouch(WVR_InputId _id);
-	bool GetTouchDown(WVR_InputId _id);
-	bool GetTouchUp(WVR_InputId _id);
-
-	FVector2D GetAxis(WVR_InputId _id);
-#endif
+	bool AllowGetAxisInAFrame(EWVR_TouchId id);
+	FVector2D GetAxis(EWVR_TouchId id);
 
 private:
-	bool preState_press[pressIdCount];
-	bool curState_press[pressIdCount];
-	milliseconds prevFrameCount_press[pressIdCount];
+	bool preState_press[InputButtonCount];
+	bool curState_press[InputButtonCount];
+	milliseconds prevFrameCount_press[InputButtonCount];
 
-#if WAVEVR_SUPPORTED_PLATFORMS
-	void Update_PressState(WVR_InputId _id);
-#endif
+	void Update_PressState(EWVR_InputId _id);
 
-	bool preState_touch[touchIdCount];
-	bool curState_touch[touchIdCount];
-	milliseconds prevFrameCount_touch[touchIdCount];
+	bool preState_touch[TouchButtonCount];
+	bool curState_touch[TouchButtonCount];
+	milliseconds prevFrameCount_touch[TouchButtonCount];
 
-#if WAVEVR_SUPPORTED_PLATFORMS
-	void Update_TouchState(WVR_InputId _id);
-#endif
+	void Update_TouchState(EWVR_TouchId _id);
 
 	FVector2D axis_touchpad;
 	FVector2D axis_trigger;	// trigger has only x-axis
+	milliseconds prevFrameCount_axis[TouchButtonCount];
 };
 
-/**
- * 
- */
 UCLASS(Blueprintable)
 class WAVEVR_API UWaveVRController : public UObject
 {
-	GENERATED_BODY()
+	GENERATED_UCLASS_BODY()
 
 public:
 	UWaveVRController();
@@ -117,19 +111,13 @@ public:
 	static bool IsRightControllerButtonPressed(EWVR_InputId button_id);
 
 	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
-	static bool IsRightControllerButtonPressedDown(EWVR_InputId button_id);
-
-	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
-	static bool IsRightControllerButtonPressedUp(EWVR_InputId button_id);
-
-	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
 	static bool IsLeftControllerButtonPressed(EWVR_InputId button_id);
 
 	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
-	static bool IsLeftControllerButtonPressedDown(EWVR_InputId button_id);
+	static bool IsRightControllerButtonTouched(EWVR_TouchId button_id);
 
 	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
-	static bool IsLeftControllerButtonPressedUp(EWVR_InputId button_id);
+	static bool IsLeftControllerButtonTouched(EWVR_TouchId button_id);
 
 	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
 	static bool IsRightControllerConnected();
@@ -141,7 +129,23 @@ public:
 	static bool IsAnyButtonPressed();
 
 	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
-	static bool IsRightControllerButtonTouched(EWVR_TouchId button_id);
+	static FVector2D GetRightControllerAxis(EWVR_TouchId button_id);
+
+	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
+	static FVector2D GetLeftControllerAxis(EWVR_TouchId button_id);
+
+	/*
+	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
+	static bool IsRightControllerButtonPressedDown(EWVR_InputId button_id);
+
+	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
+	static bool IsRightControllerButtonPressedUp(EWVR_InputId button_id);
+
+	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
+	static bool IsLeftControllerButtonPressedDown(EWVR_InputId button_id);
+
+	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
+	static bool IsLeftControllerButtonPressedUp(EWVR_InputId button_id);
 
 	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
 	static bool IsRightControllerButtonTouchedDown(EWVR_TouchId button_id);
@@ -149,24 +153,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
 	static bool IsRightControllerButtonTouchedUp(EWVR_TouchId button_id);
 
-	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
-	static bool IsLeftControllerButtonTouched(EWVR_TouchId button_id);
-
-	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
+	//UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
 	static bool IsLeftControllerButtonTouchedDown(EWVR_TouchId button_id);
 
-	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
+	//UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
 	static bool IsLeftControllerButtonTouchedUp(EWVR_TouchId button_id);
-
-	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
-	static FVector2D GetRightControllerAxis(EWVR_TouchId button_id);
-
-	UFUNCTION(BlueprintCallable, Category = "WaveVR|Controller")
-	static FVector2D GetLeftControllerAxis(EWVR_TouchId button_id);
+	*/
 
 private:
-#if WAVEVR_SUPPORTED_PLATFORMS
 	static Device RightController;
 	static Device LeftController;
-#endif
 };

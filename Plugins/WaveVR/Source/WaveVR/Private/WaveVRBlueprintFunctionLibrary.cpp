@@ -37,6 +37,22 @@ bool UWaveVRBlueprintFunctionLibrary::GetDevicePose(FVector& OutPosition, FRotat
     return bIsPoseValid;
 }
 
+FVector UWaveVRBlueprintFunctionLibrary::GetDeviceVelocity(EWVR_DeviceType type)
+{
+	PoseManagerImp* PoseMngr = PoseManagerImp::GetInstance();
+	PoseManagerImp::Device* device = PoseMngr->GetDevice(GetType(type));
+	WVR_Vector3f_t velocity = device->pose.pose.velocity;
+	return FVector(velocity.v[0], velocity.v[1], velocity.v[2]);
+}
+
+FVector UWaveVRBlueprintFunctionLibrary::GetDeviceAngularVelocity(EWVR_DeviceType type)
+{
+	PoseManagerImp* PoseMngr = PoseManagerImp::GetInstance();
+	PoseManagerImp::Device* device = PoseMngr->GetDevice(GetType(type));
+	WVR_Vector3f_t angularv = device->pose.pose.angularVelocity;
+	return FVector(angularv.v[0], angularv.v[1], angularv.v[2]);
+}
+
 bool UWaveVRBlueprintFunctionLibrary::IsDevicePoseValid(EWVR_DeviceType Type)
 {
     PoseManagerImp* PoseMngr = PoseManagerImp::GetInstance();

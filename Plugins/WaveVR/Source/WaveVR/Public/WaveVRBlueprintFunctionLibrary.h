@@ -17,8 +17,8 @@ enum class EWVR_DeviceType : uint8
 UENUM(BlueprintType)
 enum class EWVR_Hand : uint8
 {
-    Hand_Controller_Right,
-    Hand_Controller_Left
+    Hand_Controller_Right = 2,	// WVR_DeviceType::WVR_DeviceType_Controller_Right
+    Hand_Controller_Left = 3	// WVR_DeviceType::WVR_DeviceType_Controller_Left
 };
 
 UENUM(BlueprintType)
@@ -38,7 +38,13 @@ public:
     UFUNCTION(BlueprintCallable, Category = "WaveVR|PoseManager")
     static bool GetDevicePose(FVector& OutPosition, FRotator& OutOrientation, EWVR_DeviceType type = EWVR_DeviceType::DeviceType_HMD);
 
-    UFUNCTION(BlueprintCallable, Category = "WaveVR|PoseManager")
+	UFUNCTION(BlueprintCallable, Category = "WaveVR|PoseManager")
+	static FVector GetDeviceVelocity(EWVR_DeviceType type = EWVR_DeviceType::DeviceType_Controller_Right);
+
+	UFUNCTION(BlueprintCallable, Category = "WaveVR|PoseManager")
+	static FVector GetDeviceAngularVelocity(EWVR_DeviceType type = EWVR_DeviceType::DeviceType_Controller_Right);
+
+	UFUNCTION(BlueprintCallable, Category = "WaveVR|PoseManager")
     static bool IsDeviceConnected(EWVR_DeviceType type);
 
     UFUNCTION(BlueprintCallable, Category = "WaveVR|PoseManager")

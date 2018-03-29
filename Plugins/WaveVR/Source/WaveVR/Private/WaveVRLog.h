@@ -8,6 +8,7 @@
 #include <android/Log.h>
 #define LOGV(TAG, fmt, ...) __android_log_print(ANDROID_LOG_VERBOSE, #TAG, fmt, __VA_ARGS__)
 #define LOGD(TAG, fmt, ...) __android_log_print(ANDROID_LOG_DEBUG, #TAG, fmt, __VA_ARGS__)
+#define LOG_NOARG(TAG, fmt) __android_log_print(ANDROID_LOG_DEBUG, #TAG, fmt)
 #define LOGI(TAG, fmt, ...) __android_log_print(ANDROID_LOG_INFO, #TAG, fmt, __VA_ARGS__)
 #define LOGW(TAG, fmt, ...) __android_log_print(ANDROID_LOG_WARN, #TAG, fmt, __VA_ARGS__)
 #define LOGE(TAG, fmt, ...) __android_log_print(ANDROID_LOG_ERROR, #TAG, fmt, __VA_ARGS__)
@@ -16,6 +17,7 @@
 // fallback to UE_LOG
 #define LOGV(CategoryName, Format, ...) UE_LOG(CategoryName, Verbose, TEXT(Format), __VA_ARGS__)
 #define LOGD(CategoryName, Format, ...) UE_LOG(CategoryName, Display, TEXT(Format), __VA_ARGS__)
+#define LOG_NOARG(CategoryName, Format) UE_LOG(CategoryName, Display, TEXT(Format));
 #define LOGI(CategoryName, Format, ...) UE_LOG(CategoryName, Log, TEXT(Format), __VA_ARGS__)
 #define LOGW(CategoryName, Format, ...) UE_LOG(CategoryName, Warning, TEXT(Format), __VA_ARGS__)
 #define LOGE(CategoryName, Format, ...) UE_LOG(CategoryName, Error, TEXT(Format), __VA_ARGS__)
