@@ -69,37 +69,17 @@
 			"IsPrecompiled" : true
 		},
 		{
-			"Path" : "$(EngineDir)/Plugins/Online/Android/OnlineSubsystemGooglePlay/Binaries/Android/UE4-OnlineSubsystemGooglePlay-armv7-es2.a",
-			"Type" : "StaticLibrary",
-			"IsPrecompiled" : true
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Online/OnlineSubsystem/Binaries/Android/UE4-OnlineSubsystem-armv7-es2.a",
-			"Type" : "StaticLibrary",
-			"IsPrecompiled" : true
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Runtime/AndroidPermission/Binaries/Android/UE4-AndroidPermission-armv7-es2.a",
-			"Type" : "StaticLibrary",
-			"IsPrecompiled" : true
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Online/OnlineSubsystemNull/Binaries/Android/UE4-OnlineSubsystemNull-armv7-es2.a",
-			"Type" : "StaticLibrary",
-			"IsPrecompiled" : true
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Online/OnlineSubsystemUtils/Binaries/Android/UE4-OnlineSubsystemUtils-armv7-es2.a",
-			"Type" : "StaticLibrary",
-			"IsPrecompiled" : true
-		},
-		{
 			"Path" : "$(EngineDir)/Plugins/Runtime/AndroidDeviceProfileSelector/Binaries/Android/UE4-AndroidDeviceProfileSelectorRuntime-armv7-es2.a",
 			"Type" : "StaticLibrary",
 			"IsPrecompiled" : true
 		},
 		{
 			"Path" : "$(EngineDir)/Plugins/Runtime/AndroidMoviePlayer/Binaries/Android/UE4-AndroidMoviePlayer-armv7-es2.a",
+			"Type" : "StaticLibrary",
+			"IsPrecompiled" : true
+		},
+		{
+			"Path" : "$(EngineDir)/Plugins/Runtime/AndroidPermission/Binaries/Android/UE4-AndroidPermission-armv7-es2.a",
 			"Type" : "StaticLibrary",
 			"IsPrecompiled" : true
 		},
@@ -659,16 +639,6 @@
 			"IsPrecompiled" : true
 		},
 		{
-			"Path" : "$(EngineDir)/Binaries/Android/UE4-ImageCore-armv7-es2.a",
-			"Type" : "StaticLibrary",
-			"IsPrecompiled" : true
-		},
-		{
-			"Path" : "$(EngineDir)/Binaries/Android/UE4-Voice-armv7-es2.a",
-			"Type" : "StaticLibrary",
-			"IsPrecompiled" : true
-		},
-		{
 			"Path" : "$(EngineDir)/Plugins/Runtime/AndroidDeviceProfileSelector/Binaries/Android/UE4-AndroidDeviceProfileSelector-armv7-es2.a",
 			"Type" : "StaticLibrary",
 			"IsPrecompiled" : true
@@ -723,31 +693,15 @@
 			"Type" : "UFS"
 		},
 		{
-			"Path" : "$(EngineDir)/Plugins/Online/Android/OnlineSubsystemGooglePlay/OnlineSubsystemGooglePlay.uplugin",
-			"Type" : "UFS"
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Online/OnlineSubsystem/OnlineSubsystem.uplugin",
-			"Type" : "UFS"
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Runtime/AndroidPermission/AndroidPermission.uplugin",
-			"Type" : "UFS"
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Online/OnlineSubsystemNull/OnlineSubsystemNull.uplugin",
-			"Type" : "UFS"
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Online/OnlineSubsystemUtils/OnlineSubsystemUtils.uplugin",
-			"Type" : "UFS"
-		},
-		{
 			"Path" : "$(EngineDir)/Plugins/Runtime/AndroidDeviceProfileSelector/AndroidDeviceProfileSelector.uplugin",
 			"Type" : "UFS"
 		},
 		{
 			"Path" : "$(EngineDir)/Plugins/Runtime/AndroidMoviePlayer/AndroidMoviePlayer.uplugin",
+			"Type" : "UFS"
+		},
+		{
+			"Path" : "$(EngineDir)/Plugins/Runtime/AndroidPermission/AndroidPermission.uplugin",
 			"Type" : "UFS"
 		},
 		{
@@ -1719,7 +1673,7 @@
 	[
 		{
 			"Name" : "AndroidPlugin",
-			"Value" : "..\\..\\..\\..\\unrealprojects\\ThirtyDaysInVR\\Plugins\\WaveVR\\Source\\WaveVR\\WaveVR_UPL.xml"
+			"Value" : "..\\..\\..\\ThirtyDaysInVR\\Plugins\\WaveVR\\Source\\WaveVR\\WaveVR_UPL.xml"
 		},
 		{
 			"Name" : "AndroidPlugin",
@@ -1728,10 +1682,6 @@
 		{
 			"Name" : "AndroidPlugin",
 			"Value" : "Plugins\\Runtime\\GoogleCloudMessaging\\Source\\GoogleCloudMessaging\\GoogleCloudMessaging_UPL.xml"
-		},
-		{
-			"Name" : "AndroidPlugin",
-			"Value" : "Source\\Runtime\\Online\\Voice\\AndroidVoiceImpl_UPL.xml"
 		},
 		{
 			"Name" : "SDK",
